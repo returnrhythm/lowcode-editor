@@ -8,8 +8,7 @@ export interface MaterialItemProps {
 export function MaterialItem(props: MaterialItemProps) {
   const { name, desc } = props;
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_, drag] = useDrag({
+  const [, drag] = useDrag({
     type: name,
     item: {
       type: name,

@@ -12,8 +12,7 @@ const Container = ({ id, name, children, styles }: CommonComponentProps) => {
 
   const divRef = useRef<HTMLDivElement>(null);
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_, drag] = useDrag({
+  const [, drag] = useDrag({
     type: name,
     item: {
       type: name,

@@ -117,7 +117,12 @@ const creator: StateCreator<State & Action> = (set, get) => ({
 
 export const useComponetsStore = create<State & Action>()(
   persist(creator, {
-    name: "lowcode",
+    name: "storage-components",
+    partialize: (state) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { curComponentId, ...restState } = state;
+      return restState;
+    },
   })
 );
 export function getComponentById(
