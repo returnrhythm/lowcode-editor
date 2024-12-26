@@ -1,20 +1,14 @@
 import { useEffect, useMemo, useState } from "react";
-import { createPortal } from "react-dom";
 import { getComponentById, useComponetsStore } from "../../stores/components";
 import { Dropdown, Popconfirm, Space } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 
 interface SelectedMaskProps {
-  portalWrapperClassName: string;
   containerClassName: string;
   componentId: number;
 }
 
-function SelectedMask({
-  containerClassName,
-  portalWrapperClassName,
-  componentId,
-}: SelectedMaskProps) {
+function SelectedMask({ containerClassName, componentId }: SelectedMaskProps) {
   const [position, setPosition] = useState({
     left: 0,
     top: 0,
@@ -58,17 +52,13 @@ function SelectedMask({
 
     setPosition({
       top: top - containerTop + container.scrollTop,
-      left: left - containerLeft + container.scrollTop,
+      left: left - containerLeft + container.scrollLeft,
       width,
       height,
       labelTop,
       labelLeft,
     });
   }
-
-  const el = useMemo(() => {
-    return document.querySelector(`.${portalWrapperClassName}`)!;
-  }, []);
 
   const curSelectedComponent = useMemo(() => {
     return getComponentById(componentId, components);
@@ -107,7 +97,7 @@ function SelectedMask({
     };
   }, []);
 
-  return createPortal(
+  return (
     <>
       <div
         style={{
@@ -175,8 +165,7 @@ function SelectedMask({
           )}
         </Space>
       </div>
-    </>,
-    el
+    </>
   );
 }
 

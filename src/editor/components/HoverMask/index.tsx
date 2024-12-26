@@ -1,18 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
-import { createPortal } from "react-dom";
 import { getComponentById, useComponetsStore } from "../../stores/components";
 
 interface HoverMaskProps {
   containerClassName: string;
   componentId: number;
-  portalWrapperClassName: string;
 }
 
-function HoverMask({
-  containerClassName,
-  componentId,
-  portalWrapperClassName,
-}: HoverMaskProps) {
+function HoverMask({ containerClassName, componentId }: HoverMaskProps) {
   const [position, setPosition] = useState({
     left: 0,
     top: 0,
@@ -42,7 +36,7 @@ function HoverMask({
       container.getBoundingClientRect();
 
     let labelTop = top - containerTop + container.scrollTop;
-    const labelLeft = left - containerLeft + width;
+    const labelLeft = left - containerLeft + container.scrollLeft;
 
     if (labelTop <= 0) {
       labelTop -= -20;
@@ -58,10 +52,6 @@ function HoverMask({
     });
   }
 
-  const el = useMemo(() => {
-    return document.querySelector(`.${portalWrapperClassName}`)!;
-  }, []);
-
   const curComponent = useMemo(() => {
     return getComponentById(componentId, components);
   }, [componentId]);
@@ -70,7 +60,7 @@ function HoverMask({
     updatePosition();
   }, [components]);
 
-  return createPortal(
+  return (
     <>
       <div
         style={{
@@ -111,8 +101,7 @@ function HoverMask({
           {curComponent?.desc}
         </div>
       </div>
-    </>,
-    el
+    </>
   );
 }
 

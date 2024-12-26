@@ -34,29 +34,21 @@ export function EditArea() {
   const [hoverComponentId, setHoverComponentId] = useState<number>();
 
   const handleMouseOver: MouseEventHandler = (e) => {
-    const path = e.nativeEvent.composedPath();
-
-    for (let i = 0; i < path.length; i += 1) {
-      const ele = path[i] as HTMLElement;
-
-      const componentId = ele.dataset?.componentId;
+    const target = (e.target as HTMLElement).closest("[data-component-id]");
+    if (target) {
+      const componentId = target.getAttribute("data-component-id");
       if (componentId) {
-        setHoverComponentId(+componentId);
-        return;
+        setHoverComponentId(Number(componentId));
       }
     }
   };
 
   const handleClick: MouseEventHandler = (e) => {
-    const path = e.nativeEvent.composedPath();
-
-    for (let i = 0; i < path.length; i += 1) {
-      const ele = path[i] as HTMLElement;
-
-      const componentId = ele.dataset?.componentId;
+    const target = (e.target as HTMLElement).closest("[data-component-id]");
+    if (target) {
+      const componentId = target.getAttribute("data-component-id");
       if (componentId) {
         setCurComponentId(+componentId);
-        return;
       }
     }
   };
@@ -73,19 +65,16 @@ export function EditArea() {
       {renderComponents(components)}
       {hoverComponentId && hoverComponentId !== curComponentId && (
         <HoverMask
-          portalWrapperClassName="portal-wrapper"
           containerClassName="edit-area"
           componentId={hoverComponentId}
         />
       )}
       {curComponentId && (
         <SelectedMask
-          portalWrapperClassName="portal-wrapper"
           containerClassName="edit-area"
           componentId={curComponentId}
         />
       )}
-      <div className="portal-wrapper"></div>
     </div>
   );
 }
