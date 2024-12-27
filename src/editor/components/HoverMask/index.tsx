@@ -36,7 +36,7 @@ function HoverMask({ containerClassName, componentId }: HoverMaskProps) {
       container.getBoundingClientRect();
 
     let labelTop = top - containerTop + container.scrollTop;
-    const labelLeft = left - containerLeft + container.scrollLeft;
+    const labelLeft = left - containerLeft + width;
 
     if (labelTop <= 0) {
       labelTop -= -20;
@@ -44,7 +44,7 @@ function HoverMask({ containerClassName, componentId }: HoverMaskProps) {
 
     setPosition({
       top: top - containerTop + container.scrollTop,
-      left: left - containerLeft + container.scrollTop,
+      left: left - containerLeft + container.scrollLeft,
       width,
       height,
       labelTop,
